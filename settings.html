@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impostazioni - Zone4Love</title>
+    
+    <!-- TailwindCSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/dashboard.css">
+    
+    <!-- GSAP -->
+    <script src="/gsap/gsap.min.js"></script>
+    <script src="/gsap/ScrollTrigger.min.js"></script>
+</head>
+<body class="bg-black text-white overflow-x-hidden">
+    
+    <!-- Galaxy Background -->
+    <div id="galaxy-bg" class="fixed inset-0 z-0">
+        <canvas id="stars-canvas"></canvas>
+        <div id="nebula-layer"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-40 backdrop-blur-xl bg-black/40 border-b border-purple-500/20">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-6">
+                    <a href="dashboard.html" class="text-2xl font-bold bg-gradient-to-r from-purple-400 via-pink-500 to-blue-500 bg-clip-text text-transparent">
+                        Zone4Love
+                    </a>
+                    <h1 class="text-xl font-semibold">Impostazioni</h1>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <a href="profile.html" class="px-4 py-2 rounded-full border border-purple-500/30 hover:border-pink-500/50 transition-all">
+                        Profilo
+                    </a>
+                    <a href="dashboard.html" class="px-4 py-2 rounded-full bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 transition-all">
+                        Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="relative z-10 pt-24 min-h-screen">
+        <div class="max-w-4xl mx-auto px-6 pb-12">
+            
+            <!-- Settings Sections -->
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                
+                <!-- Settings Navigation -->
+                <div class="lg:col-span-1">
+                    <div class="bg-black/40 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-6 sticky top-32">
+                        <h2 class="text-lg font-bold mb-4">Categorie</h2>
+                        <nav class="space-y-2">
+                            <button class="settings-nav-item active w-full text-left px-4 py-3 rounded-xl hover:bg-purple-900/20 transition-colors" data-section="account">
+                                <div class="flex items-center gap-3">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                    </svg>
+                                    Account
+                                </div>
+                            </button>
+                            <button class="settings-nav-item w-full text-left px-4 py-3 rounded-xl hover:bg-purple-900/20 transition-colors" data-section="privacy">
+                                <div class="flex items-center gap-3">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                                    </svg>
+                                    Privacy
+                                </div>
+                            </button>
+                            <button class="settings-nav-item w-full text-left px-4 py-3 rounded-xl hover:bg-purple-900/20 transition-colors" data-section="notifications">
+                                <div class="flex items-center gap-3">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                                    </svg>
+                                    Notifiche
+                                </div>
+                            </button>
+                            <button class="settings-nav-item w-full text-left px-4 py-3 rounded-xl hover:bg-purple-900/20 transition-colors" data-section="appearance">
+                                <div class="flex items-center gap-3">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z"/>
+                                    </svg>
+                                    Aspetto
+                                </div>
+                            </button>
+                            <button class="settings-nav-item w-full text-left px-4 py-3 rounded-xl hover:bg-purple-900/20 transition-colors" data-section="security">
+                                <div class="flex items-center gap-3">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                                    </svg>
+                                    Sicurezza
+                                </div>
+                            </button>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Settings Content -->
+                <div class="lg:col-span-3">
+                    
+                    <!-- Account Settings -->
+                    <div id="account-section" class="settings-section">
+                        <div class="bg-black/40 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-8 mb-8">
+                            <h2 class="text-2xl font-bold mb-6">Impostazioni Account</h2>
+                            
+                            <!-- Profile Picture -->
+                            <div class="mb-8">
+                                <label class="block text-sm font-medium text-purple-300 mb-4">Foto Profilo</label>
+                                <div class="flex items-center gap-6">
+                                    <div id="current-avatar" class="w-20 h-20 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-2xl font-bold">
+                                        A
+                                    </div>
+                                    <div>
+                                        <button class="px-4 py-2 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 transition-all font-semibold mb-2">
+                                            Cambia Foto
+                                        </button>
+                                        <p class="text-sm text-purple-300">JPG, PNG max 5MB</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Basic Info -->
+                            <form id="account-form" class="space-y-6">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-sm font-medium text-purple-300 mb-2">Username</label>
+                                        <input type="text" id="username" class="w-full p-3 bg-purple-900/20 border border-purple-500/30 rounded-xl text-white focus:border-pink-500/50 outline-none transition-all" />
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-purple-300 mb-2">Email</label>
+                                        <input type="email" id="email" class="w-full p-3 bg-purple-900/20 border border-purple-500/30 rounded-xl text-white focus:border-pink-500/50 outline-none transition-all" />
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-sm font-medium text-purple-300 mb-2">Bio</label>
+                                    <textarea id="bio" rows="3" class="w-full p-3 bg-purple-900/20 border border-purple-500/30 rounded-xl text-white resize-none focus:border-pink-500/50 outline-none transition-all" placeholder="Racconta qualcosa di te..."></textarea>
+                                </div>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-sm font-medium text-purple-300 mb-2">Data di nascita</label>
+                                        <input type="date" id="birthdate" class="w-full p-3 bg-purple-900/20 border border-purple-500/30 rounded-xl text-white focus:border-pink-500/50 outline-none transition-all" />
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-purple-300 mb-2">Sito web</label>
+                                        <input type="url" id="website" class="w-full p-3 bg-purple-900/20 border border-purple-500/30 rounded-xl text-white focus:border-pink-500/50 outline-none transition-all" placeholder="https://" />
+                                    </div>
+                                </div>
+                                
+                                <div class="flex justify-end">
+                                    <button type="submit" class="px-6 py-3 rounded-xl bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 transition-all font-semibold">
+                                        Salva Modifiche
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Privacy Settings -->
+                    <div id="privacy-section" class="settings-section hidden">
+                        <div class="bg-black/40 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-8 mb-8">
+                            <h2 class="text-2xl font-bold mb-6">Privacy e Sicurezza</h2>
+                            
+                            <div class="space-y-6">
+                                <div class="flex items-center justify-between p-4 bg-purple-900/20 rounded-xl">
+                                    <div>
+                                        <h3 class="font-semibold">Profilo Privato</h3>
+                                        <p class="text-sm text-purple-300">Solo i tuoi follower possono vedere i tuoi post</p>
+                                    </div>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" class="sr-only peer" id="private-profile">
+                                        <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-pink-600"></div>
+                                    </label>
+                                </div>
+                                
+                                <div class="flex items-center justify-between p-4 bg-purple-900/20 rounded-xl">
+                                    <div>
+                                        <h3 class="font-semibold">Mostra Online Status</h3>
+                                        <p class="text-sm text-purple-300">Gli altri possono vedere quando sei online</p>
+                                    </div>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" class="sr-only peer" id="show-online" checked>
+                                        <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-pink-600"></div>
+                                    </label>
+                                </div>
+                                
+                                <div class="flex items-center justify-between p-4 bg-purple-900/20 rounded-xl">
+                                    <div>
+                                        <h3 class="font-semibold">Messaggi da Sconosciuti</h3>
+                                        <p class="text-sm text-purple-300">Permetti messaggi da persone che non segui</p>
+                                    </div>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" class="sr-only peer" id="allow-messages" checked>
+                                        <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-pink-600"></div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Other sections would go here -->
+                    <div id="notifications-section" class="settings-section hidden">
+                        <div class="bg-black/40 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-8 mb-8">
+                            <h2 class="text-2xl font-bold mb-6">Notifiche</h2>
+                            <p class="text-purple-300">Sezione notifiche in sviluppo... 🔔</p>
+                        </div>
+                    </div>
+
+                    <div id="appearance-section" class="settings-section hidden">
+                        <div class="bg-black/40 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-8 mb-8">
+                            <h2 class="text-2xl font-bold mb-6">Aspetto</h2>
+                            <p class="text-purple-300">Personalizzazione tema in sviluppo... 🎨</p>
+                        </div>
+                    </div>
+
+                    <div id="security-section" class="settings-section hidden">
+                        <div class="bg-black/40 backdrop-blur-xl border border-purple-500/20 rounded-2xl p-8 mb-8">
+                            <h2 class="text-2xl font-bold mb-6">Sicurezza</h2>
+                            <p class="text-purple-300">Impostazioni sicurezza in sviluppo... 🔒</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="js/stars.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/settings.js"></script>
+</body>
+</html>

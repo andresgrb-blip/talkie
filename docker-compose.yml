@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  # Zone4Love Backend API
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: zone4love-backend
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - RUST_LOG=info
+      - DATABASE_URL=sqlite:/app/data/zone4love.db?mode=rwc
+      - SERVER_HOST=0.0.0.0
+      - SERVER_PORT=8080
+      - JWT_SECRET=your-super-secret-jwt-key-change-in-production
+      - FRONTEND_URL=https://zone4love.com
+    volumes:
+      - backend_data:/app/data
+    networks:
+      - zone4love-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: zone4love-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./dist:/usr/share/nginx/html:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - backend
+    networks:
+      - zone4love-network
+
+  # Redis for caching (optional)
+  redis:
+    image: redis:7-alpine
+    container_name: zone4love-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - zone4love-network
+    command: redis-server --appendonly yes
+
+volumes:
+  backend_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  zone4love-network:
+    driver: bridge

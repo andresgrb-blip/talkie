@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Update Profile</title>
+</head>
+<body>
+    <h1>Test Update Profile</h1>
+    <button onclick="testUpdate()">Test Update Bio Only</button>
+    <button onclick="testUpdateAll()">Test Update All Fields</button>
+    <pre id="output"></pre>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:8080/api';
+        const output = document.getElementById('output');
+
+        function log(msg) {
+            output.textContent += msg + '\n';
+            console.log(msg);
+        }
+
+        async function testUpdate() {
+            output.textContent = '';
+            const token = localStorage.getItem('token');
+            
+            log('🔑 Token: ' + (token ? 'Present (' + token.length + ' chars)' : 'Missing'));
+            
+            if (!token) {
+                log('❌ No token! Please login first.');
+                return;
+            }
+
+            // Test 1: Update only bio
+            log('\n📝 Test 1: Update bio only');
+            try {
+                const response = await fetch(`${API_BASE_URL}/users/me`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        bio: 'Test bio from test page'
+                    })
+                });
+
+                log('Status: ' + response.status);
+                const text = await response.text();
+                log('Response: ' + text);
+
+                if (response.ok) {
+                    log('✅ Success!');
+                } else {
+                    log('❌ Failed!');
+                }
+            } catch (error) {
+                log('❌ Error: ' + error.message);
+            }
+        }
+
+        async function testUpdateAll() {
+            output.textContent = '';
+            const token = localStorage.getItem('token');
+            
+            log('🔑 Token: ' + (token ? 'Present' : 'Missing'));
+            
+            if (!token) {
+                log('❌ No token! Please login first.');
+                return;
+            }
+
+            // Test 2: Update all fields
+            log('\n📝 Test 2: Update all fields');
+            try {
+                const data = {
+                    username: 'zion',
+                    email: 'andres.grb@outlook.com',
+                    bio: 'Test bio',
+                    birthdate: '1998-04-07',
+                    location: 'Venezia, Italia',
+                    website: null
+                };
+
+                log('Sending: ' + JSON.stringify(data, null, 2));
+
+                const response = await fetch(`${API_BASE_URL}/users/me`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                log('Status: ' + response.status);
+                const text = await response.text();
+                log('Response: ' + text);
+
+                if (response.ok) {
+                    log('✅ Success!');
+                } else {
+                    log('❌ Failed!');
+                }
+            } catch (error) {
+                log('❌ Error: ' + error.message);
+            }
+        }
+
+        // Auto-check token on load
+        window.onload = () => {
+            const token = localStorage.getItem('token');
+            if (token) {
+                log('✅ Token found in localStorage');
+                try {
+                    const payload = JSON.parse(atob(token.split('.')[1]));
+                    log('User ID: ' + payload.sub);
+                    log('Expires: ' + new Date(payload.exp * 1000).toLocaleString());
+                    log('Is expired: ' + (Date.now() > payload.exp * 1000));
+                } catch (e) {
+                    log('❌ Invalid token format');
+                }
+            } else {
+                log('❌ No token found. Please login first.');
+            }
+        };
+    </script>
+</body>
+</html>

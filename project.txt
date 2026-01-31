@@ -1,0 +1,19 @@
+The projects aims to provide to the world a better social media platform using gsap plugins under the folder "gsap".
+
+The style of the project is based on the galaxy and avoid all the modern patterns web designs.
+
+The project will use the gsap plugins to animate the elements.
+
+The project will use websockets to communicate with the server, update the UI in real time and provide a better user experience.
+
+The project will use the latest version of rust to build the backend (Actix-web).
+
+The project will use the latest version of html, css and javascript to build the frontend.
+
+The project will use the latest version of webpack to build the frontend.
+
+The project will, that is in development, use sqlite to build the database.
+
+The project will, use to registration and login system using JWT.
+
+The entire style of the project has to be created from scratch using cdn tailwindcss and cdn gsap and must be awesome, fast and responsive and security military 100%.

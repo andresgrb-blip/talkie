@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Zone4Love</title>
+    
+    <!-- TailwindCSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/dashboard.css">
+    
+    <!-- GSAP -->
+    <script src="/gsap/gsap.min.js"></script>
+    <script src="/gsap/ScrollTrigger.min.js"></script>
+</head>
+<body class="bg-black text-white overflow-x-hidden">
+    
+    <!-- Galaxy Background -->
+    <div id="galaxy-bg" class="fixed inset-0 z-0">
+        <canvas id="stars-canvas"></canvas>
+        <div id="nebula-layer"></div>
+    </div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="fixed left-0 top-0 h-full w-64 z-40 backdrop-blur-xl bg-black/40 border-r border-purple-500/20 transition-transform duration-300">
+        <div class="p-6">
+            <!-- Logo -->
+            <div class="mb-8">
+                <h1 class="text-2xl font-bold bg-gradient-to-r from-purple-400 via-pink-500 to-blue-500 bg-clip-text text-transparent">
+                    Zone4Love
+                </h1>
+            </div>
+
+            <!-- Navigation Menu -->
+            <nav class="space-y-2">
+                <a href="dashboard.html" class="sidebar-link active">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                    </svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="explore.html" class="sidebar-link">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                    <span>Esplora</span>
+                </a>
+                <a href="messages.html" class="sidebar-link">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                    </svg>
+                    <span>Messaggi</span>
+                    <span class="ml-auto bg-pink-500 text-xs px-2 py-1 rounded-full">3</span>
+                </a>
+                <a href="notifications.html" class="sidebar-link">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                    </svg>
+                    <span>Notifiche</span>
+                    <span class="ml-auto bg-purple-500 text-xs px-2 py-1 rounded-full">12</span>
+                </a>
+                <a href="explore.html" class="sidebar-link">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                    </svg>
+                    <span>Community</span>
+                </a>
+                <a href="profile.html" class="sidebar-link">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <span>Profilo</span>
+                </a>
+                <a href="settings.html" class="sidebar-link">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    <span>Impostazioni</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- User Profile in Sidebar -->
+        <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-purple-500/20">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center font-bold">
+                    A
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-sm font-semibold truncate">Astronauta123</p>
+                    <p class="text-xs text-purple-300 truncate">astronauta@galaxy.com</p>
+                </div>
+                <button class="text-purple-300 hover:text-pink-400 transition-colors" title="Logout">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Mobile Menu Toggle -->
+    <button id="menu-toggle" class="fixed top-6 left-6 z-50 lg:hidden backdrop-blur-sm bg-black/40 p-3 rounded-full border border-purple-500/30">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+    </button>
+
+    <!-- Main Content -->
+    <main class="lg:ml-64 relative z-10 min-h-screen">
+        <!-- Top Bar -->
+        <header class="backdrop-blur-sm bg-black/30 border-b border-purple-500/20 p-6 sticky top-0 z-30">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold">Benvenuto, Astronauta! 🚀</h2>
+                    <p class="text-purple-200 text-sm mt-1">Esplora la galassia sociale</p>
+                </div>
+                <div class="flex items-center gap-4">
+                    <!-- Search -->
+                    <div class="hidden md:block relative">
+                        <input 
+                            type="search" 
+                            placeholder="Cerca nella galassia..." 
+                            class="w-64 px-4 py-2 pl-10 rounded-full bg-purple-900/20 border border-purple-500/30 focus:border-pink-500/50 outline-none transition-all"
+                        />
+                        <svg class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </div>
+                    <!-- New Post Button -->
+                    <button class="px-6 py-2 rounded-full bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 transition-all font-semibold">
+                        Nuovo Post
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div class="p-6">
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="stat-card">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-purple-300 text-sm">Followers</p>
+                            <h3 id="stat-followers" class="text-3xl font-bold mt-1">...</h3>
+                            <p id="stat-followers-change" class="text-green-400 text-xs mt-2">Caricamento...</p>
+                        </div>
+                        <div class="w-14 h-14 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-purple-300 text-sm">Post</p>
+                            <h3 id="stat-posts" class="text-3xl font-bold mt-1">...</h3>
+                            <p id="stat-posts-change" class="text-blue-400 text-xs mt-2">Caricamento...</p>
+                        </div>
+                        <div class="w-14 h-14 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-purple-300 text-sm">Interazioni</p>
+                            <h3 id="stat-interactions" class="text-3xl font-bold mt-1">...</h3>
+                            <p id="stat-interactions-change" class="text-pink-400 text-xs mt-2">Caricamento...</p>
+                        </div>
+                        <div class="w-14 h-14 rounded-full bg-gradient-to-br from-pink-600 to-purple-600 flex items-center justify-center">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-purple-300 text-sm">Following</p>
+                            <h3 id="stat-following" class="text-3xl font-bold mt-1">...</h3>
+                            <p id="stat-following-change" class="text-purple-400 text-xs mt-2">Caricamento...</p>
+                        </div>
+                        <div class="w-14 h-14 rounded-full bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Feed -->
+                <div class="lg:col-span-2 space-y-6">
+                    <h3 class="text-xl font-bold mb-4">Feed Galattico</h3>
+
+                    <!-- Post Card -->
+                    <div class="post-card">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center font-bold">
+                                S
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-semibold">SpaceExplorer</h4>
+                                <p class="text-sm text-purple-300">2 ore fa</p>
+                            </div>
+                            <button class="text-purple-300 hover:text-pink-400">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="text-purple-100 mb-4">
+                            Incredibile vista della nebulosa di Orione questa sera! 🌌✨ 
+                            Chi altro sta osservando le stelle stasera?
+                        </p>
+                        <div class="h-64 bg-gradient-to-br from-purple-900/40 to-pink-900/40 rounded-xl mb-4 flex items-center justify-center">
+                            <svg class="w-16 h-16 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                        <div class="flex items-center gap-6 text-sm">
+                            <button class="flex items-center gap-2 text-purple-300 hover:text-pink-400 transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                </svg>
+                                <span>234</span>
+                            </button>
+                            <button class="flex items-center gap-2 text-purple-300 hover:text-pink-400 transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                                </svg>
+                                <span>45</span>
+                            </button>
+                            <button class="flex items-center gap-2 text-purple-300 hover:text-pink-400 transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+                                </svg>
+                                <span>12</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- More posts would go here -->
+                    <div class="text-center py-8">
+                        <button class="px-8 py-3 rounded-full border border-purple-500/30 hover:border-pink-500/50 transition-all">
+                            Carica altri post
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Sidebar Content -->
+                <div class="space-y-6">
+                    <!-- Suggestions -->
+                    <div class="widget-card">
+                        <h3 class="text-lg font-bold mb-4">Suggerimenti</h3>
+                        <div id="suggestions-container" class="space-y-4">
+                            <div class="text-center text-purple-300 text-sm py-4">
+                                Caricamento suggerimenti...
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Trending -->
+                    <div class="widget-card">
+                        <h3 class="text-lg font-bold mb-4">Utenti Attivi</h3>
+                        <div id="trending-users-container" class="space-y-3">
+                            <div class="text-center text-purple-300 text-sm py-4">
+                                Caricamento utenti attivi...
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Events -->
+                    <div class="widget-card">
+                        <h3 class="text-lg font-bold mb-4">Eventi Prossimi</h3>
+                        <div class="space-y-3">
+                            <div class="p-3 rounded-lg border border-purple-500/20 hover:border-pink-500/30 transition-all cursor-pointer">
+                                <p class="text-sm font-semibold">Livestream: Eclissi Lunare</p>
+                                <p class="text-xs text-purple-300 mt-1">15 Nov, 21:00</p>
+                            </div>
+                            <div class="p-3 rounded-lg border border-purple-500/20 hover:border-pink-500/30 transition-all cursor-pointer">
+                                <p class="text-sm font-semibold">Meetup Astrofotografia</p>
+                                <p class="text-xs text-purple-300 mt-1">20 Nov, 18:30</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Main JavaScript -->
+    <script src="js/stars.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
